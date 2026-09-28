@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmación de Pago - Dulce Tentación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <div data-header></div>
+
+  <main class="flex-1 py-8">
+    <div class="container-page">
+      <h1 class="font-display text-3xl md:text-4xl font-bold text-gray-800 mb-2">Finalizar compra</h1>
+      <p class="text-gray-500 mb-8">Completa los datos para procesar tu pedido</p>
+
+      <form id="checkout-form" class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-6">
+          <section class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                <span class="font-display font-bold text-pink-500">1</span>
+              </div>
+              <h2 class="font-display text-xl font-bold text-gray-800">Datos de contacto</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                <input type="text" name="nombre" required class="input-field" placeholder="Tu nombre">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" name="email" required class="input-field" placeholder="tu@correo.com">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                <input type="tel" name="telefono" required class="input-field" placeholder="+1 555-1234">
+              </div>
+            </div>
+          </section>
+
+          <section class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                <span class="font-display font-bold text-pink-500">2</span>
+              </div>
+              <h2 class="font-display text-xl font-bold text-gray-800">Dirección de envío</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Calle y número</label>
+                <input type="text" name="calle" required class="input-field" placeholder="Av. Principal 123">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
+                <input type="text" name="ciudad" required class="input-field" placeholder="Ciudad">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Código postal</label>
+                <input type="text" name="codigoPostal" required class="input-field" placeholder="12345">
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Referencia (opcional)</label>
+                <input type="text" name="referencia" class="input-field" placeholder="Ej: Casa esquinera color blanco">
+              </div>
+            </div>
+          </section>
+
+          <section class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                <span class="font-display font-bold text-pink-500">3</span>
+              </div>
+              <h2 class="font-display text-xl font-bold text-gray-800">Tipo de envío</h2>
+            </div>
+            <div class="space-y-3" id="envio-opciones">
+              <label class="flex items-start gap-3 p-4 border-2 border-pink-100 rounded-xl cursor-pointer hover:border-pink-300 transition has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50">
+                <input type="radio" name="envio" value="estandar" data-costo="5" checked class="mt-1 text-pink-500 focus:ring-pink-400">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-semibold text-gray-800">📦 Estándar</span>
+                    <span class="font-display font-bold text-pink-500">$5.00</span>
+                  </div>
+                  <p class="text-sm text-gray-500">3-5 días hábiles</p>
+                </div>
+              </label>
+              <label class="flex items-start gap-3 p-4 border-2 border-pink-100 rounded-xl cursor-pointer hover:border-pink-300 transition has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50">
+                <input type="radio" name="envio" value="express" data-costo="10" class="mt-1 text-pink-500 focus:ring-pink-400">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-semibold text-gray-800">⚡ Express</span>
+                    <span class="font-display font-bold text-pink-500">$10.00</span>
+                  </div>
+                  <p class="text-sm text-gray-500">24-48 horas</p>
+                </div>
+              </label>
+              <label class="flex items-start gap-3 p-4 border-2 border-pink-100 rounded-xl cursor-pointer hover:border-pink-300 transition has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50">
+                <input type="radio" name="envio" value="tienda" data-costo="0" class="mt-1 text-pink-500 focus:ring-pink-400">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-semibold text-gray-800">🏪 Recojo en tienda</span>
+                    <span class="font-display font-bold text-pink-500">Gratis</span>
+                  </div>
+                  <p class="text-sm text-gray-500">Listo en 2 horas</p>
+                </div>
+              </label>
+            </div>
+          </section>
+
+          <section class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                <span class="font-display font-bold text-pink-500">4</span>
+              </div>
+              <h2 class="font-display text-xl font-bold text-gray-800">Medio de pago</h2>
+            </div>
+            <div class="space-y-3">
+              <label class="flex items-start gap-3 p-4 border-2 border-pink-100 rounded-xl cursor-pointer hover:border-pink-300 transition has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50">
+                <input type="radio" name="pago" value="tarjeta" checked class="mt-1 text-pink-500 focus:ring-pink-400">
+                <div class="flex-1">
+                  <span class="font-semibold text-gray-800">💳 Tarjeta de Crédito/Débito</span>
+                  <div id="tarjeta-form" class="mt-3 space-y-3">
+                    <input type="text" name="numeroTarjeta" class="input-field text-sm" placeholder="1234 5678 9012 3456" maxlength="19">
+                    <div class="grid grid-cols-2 gap-3">
+                      <input type="text" name="vencimiento" class="input-field text-sm" placeholder="MM/AA" maxlength="5">
+                      <input type="text" name="cvv" class="input-field text-sm" placeholder="CVV" maxlength="3">
+                    </div>
+                  </div>
+                </div>
+              </label>
+              <label class="flex items-start gap-3 p-4 border-2 border-pink-100 rounded-xl cursor-pointer hover:border-pink-300 transition has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50">
+                <input type="radio" name="pago" value="paypal" class="mt-1 text-pink-500 focus:ring-pink-400">
+                <div class="flex-1">
+                  <span class="font-semibold text-gray-800">🅿️ PayPal</span>
+                  <p class="text-sm text-gray-500">Serás redirigido a PayPal</p>
+                </div>
+              </label>
+              <label class="flex items-start gap-3 p-4 border-2 border-pink-100 rounded-xl cursor-pointer hover:border-pink-300 transition has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50">
+                <input type="radio" name="pago" value="transferencia" class="mt-1 text-pink-500 focus:ring-pink-400">
+                <div class="flex-1">
+                  <span class="font-semibold text-gray-800">🏦 Transferencia Bancaria</span>
+                  <p class="text-sm text-gray-500">Te enviaremos los datos</p>
+                </div>
+              </label>
+              <label class="flex items-start gap-3 p-4 border-2 border-pink-100 rounded-xl cursor-pointer hover:border-pink-300 transition has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50">
+                <input type="radio" name="pago" value="efectivo" class="mt-1 text-pink-500 focus:ring-pink-400">
+                <div class="flex-1">
+                  <span class="font-semibold text-gray-800">💵 Efectivo contra entrega</span>
+                  <p class="text-sm text-gray-500">Solo para recojo en tienda</p>
+                </div>
+              </label>
+            </div>
+          </section>
+        </div>
+
+        <aside class="lg:col-span-1">
+          <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 sticky top-24">
+            <h3 class="font-display text-xl font-bold text-gray-800 mb-4">Resumen del pedido</h3>
+            <div id="checkout-items" class="space-y-3 pb-4 border-b border-pink-100 max-h-60 overflow-y-auto"></div>
+            <div class="space-y-2 py-4 border-b border-pink-100">
+              <div class="flex justify-between text-gray-600 text-sm">
+                <span>Subtotal</span>
+                <span id="check-subtotal" class="font-semibold">$0.00</span>
+              </div>
+              <div class="flex justify-between text-gray-600 text-sm">
+                <span>Envío</span>
+                <span id="check-envio" class="font-semibold">$5.00</span>
+              </div>
+            </div>
+            <div class="flex justify-between items-center py-4">
+              <span class="font-display text-lg font-bold text-gray-800">Total</span>
+              <span id="check-total" class="font-display text-2xl font-bold text-pink-500">$0.00</span>
+            </div>
+            <button type="submit" class="btn-primary w-full">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              Confirmar pedido
+            </button>
+            <div class="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              Pago 100% seguro y encriptado
+            </div>
+          </div>
+        </aside>
+      </form>
+    </div>
+  </main>
+
+  <div data-footer></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const sesion = obtenerSesion();
+    if (!sesion) {
+      window.location.href = 'login.html?redirect=checkout.html';
+    }
+
+    function actualizarResumen() {
+      const resumen = obtenerResumenCarrito();
+      const itemsCont = document.getElementById('checkout-items');
+      itemsCont.innerHTML = resumen.items.map(item => `
+        <div class="flex items-center gap-3">
+          <img src="${item.imagen}" class="w-12 h-12 rounded-lg object-cover">
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-800 line-clamp-1">${item.nombre}</p>
+            <p class="text-xs text-gray-500">${item.cantidad} × ${formatearPrecio(item.precio)}</p>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">${formatearPrecio(item.subtotalItem)}</span>
+        </div>
+      `).join('');
+
+      const envioSeleccionado = document.querySelector('input[name="envio"]:checked');
+      const costoEnvio = parseFloat(envioSeleccionado.dataset.costo);
+      const total = resumen.subtotal + costoEnvio;
+
+      document.getElementById('check-subtotal').textContent = formatearPrecio(resumen.subtotal);
+      document.getElementById('check-envio').textContent = costoEnvio === 0 ? 'Gratis' : formatearPrecio(costoEnvio);
+      document.getElementById('check-total').textContent = formatearPrecio(total);
+    }
+
+    document.querySelectorAll('input[name="envio"]').forEach(r => {
+      r.addEventListener('change', actualizarResumen);
+    });
+
+    actualizarResumen();
+
+    const form = document.getElementById('checkout-form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const resumen = obtenerResumenCarrito();
+      if (resumen.items.length === 0) {
+        toast('Tu carrito está vacío', 'error');
+        return;
+      }
+      const formData = new FormData(form);
+      const envioSeleccionado = document.querySelector('input[name="envio"]:checked');
+      const pagoSeleccionado = document.querySelector('input[name="pago"]:checked');
+
+      const metodosPago = {
+        tarjeta: 'Tarjeta de Crédito',
+        paypal: 'PayPal',
+        transferencia: 'Transferencia Bancaria',
+        efectivo: 'Efectivo contra entrega'
+      };
+      const tiposEnvio = {
+        estandar: 'Estándar (3-5 días)',
+        express: 'Express (24-48 horas)',
+        tienda: 'Recojo en tienda'
+      };
+
+      const pedido = {
+        id: generarIdPedido(),
+        usuarioEmail: sesion.email,
+        fecha: new Date().toISOString().split('T')[0],
+        estado: 'Procesando',
+        productos: resumen.items.map(i => ({
+          id: i.id, nombre: i.nombre, precio: i.precio, cantidad: i.cantidad, imagen: i.imagen
+        })),
+        subtotal: resumen.subtotal,
+        envio: parseFloat(envioSeleccionado.dataset.costo),
+        total: resumen.subtotal + parseFloat(envioSeleccionado.dataset.costo),
+        tipoEnvio: tiposEnvio[envioSeleccionado.value],
+        direccion: {
+          nombre: formData.get('nombre'),
+          telefono: formData.get('telefono'),
+          calle: formData.get('calle'),
+          ciudad: formData.get('ciudad'),
+          codigoPostal: formData.get('codigoPostal'),
+          referencia: formData.get('referencia') || ''
+        },
+        metodoPago: metodosPago[pagoSeleccionado.value]
+      };
+
+      const pedidos = obtenerPedidos();
+      pedidos.push(pedido);
+      guardarPedidos(pedidos);
+      vaciarCarrito();
+
+      window.location.href = `confirmacion.html?orden=${pedido.id}`;
+    });
+  </script>
+</body>
+</html>

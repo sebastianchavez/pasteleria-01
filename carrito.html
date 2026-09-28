@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito - Dulce Tentación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <div data-header></div>
+
+  <main class="flex-1 py-8">
+    <div class="container-page">
+      <h1 class="font-display text-3xl md:text-4xl font-bold text-gray-800 mb-2">Mi Carrito</h1>
+      <p class="text-gray-500 mb-8" id="carrito-contador">0 productos</p>
+
+      <div id="carrito-vacio" class="hidden text-center py-16">
+        <div class="text-7xl mb-4">🛒</div>
+        <h2 class="font-display text-2xl font-bold text-gray-800 mb-2">Tu carrito está vacío</h2>
+        <p class="text-gray-500 mb-6">¡Descubre nuestras delicias y añade algo dulce!</p>
+        <a href="productos.html" class="btn-primary">Ver Productos</a>
+      </div>
+
+      <div id="carrito-contenido" class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
+            <div class="p-4 border-b border-pink-100 bg-pink-50 hidden md:grid grid-cols-12 gap-4 text-sm font-semibold text-gray-600">
+              <div class="col-span-6">Producto</div>
+              <div class="col-span-2 text-center">Precio</div>
+              <div class="col-span-2 text-center">Cantidad</div>
+              <div class="col-span-2 text-right">Subtotal</div>
+            </div>
+            <div id="carrito-items" class="divide-y divide-pink-50"></div>
+          </div>
+          <div class="mt-4 flex justify-between items-center">
+            <a href="productos.html" class="btn-ghost">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              Seguir comprando
+            </a>
+            <button id="btn-vaciar" class="text-sm text-red-500 hover:text-red-700 font-medium">Vaciar carrito</button>
+          </div>
+        </div>
+
+        <aside class="lg:col-span-1">
+          <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 sticky top-24">
+            <h3 class="font-display text-xl font-bold text-gray-800 mb-4">Resumen del pedido</h3>
+            <div class="space-y-3 pb-4 border-b border-pink-100">
+              <div class="flex justify-between text-gray-600">
+                <span>Subtotal</span>
+                <span id="resumen-subtotal" class="font-semibold text-gray-800">$0.00</span>
+              </div>
+              <div class="flex justify-between text-gray-600">
+                <span>Envío (estándar)</span>
+                <span id="resumen-envio" class="font-semibold text-gray-800">$5.00</span>
+              </div>
+              <p class="text-xs text-gray-400">* El envío express se cotiza en checkout</p>
+            </div>
+            <div class="flex justify-between items-center py-4">
+              <span class="font-display text-lg font-bold text-gray-800">Total</span>
+              <span id="resumen-total" class="font-display text-2xl font-bold text-pink-500">$0.00</span>
+            </div>
+            <button id="btn-checkout" class="btn-primary w-full">
+              Proceder al pago
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </button>
+            <div class="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              Pago 100% seguro
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div data-footer></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function renderCarrito() {
+      const resumen = obtenerResumenCarrito();
+      const itemsCont = document.getElementById('carrito-items');
+      const contador = document.getElementById('carrito-contador');
+      const carritoVacio = document.getElementById('carrito-vacio');
+      const carritoContenido = document.getElementById('carrito-contenido');
+
+      contador.textContent = `${resumen.cantidadTotal} producto${resumen.cantidadTotal !== 1 ? 's' : ''}`;
+
+      if (resumen.items.length === 0) {
+        carritoVacio.classList.remove('hidden');
+        carritoContenido.classList.add('hidden');
+        return;
+      }
+      carritoVacio.classList.add('hidden');
+      carritoContenido.classList.remove('hidden');
+
+      itemsCont.innerHTML = resumen.items.map(item => `
+        <div class="p-4 grid grid-cols-12 gap-4 items-center">
+          <div class="col-span-12 md:col-span-6 flex items-center gap-3">
+            <a href="producto.html?id=${item.id}" class="flex-shrink-0">
+              <img src="${item.imagen}" alt="${item.nombre}" class="w-20 h-20 object-cover rounded-xl">
+            </a>
+            <div class="min-w-0">
+              <a href="producto.html?id=${item.id}" class="font-display font-bold text-gray-800 hover:text-pink-500 line-clamp-2">${item.nombre}</a>
+              <button class="text-xs text-red-500 hover:text-red-700 mt-1" onclick="eliminarItem('${item.id}')">Eliminar</button>
+            </div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-left md:text-center">
+            <span class="md:hidden text-xs text-gray-500">Precio: </span>
+            <span class="font-semibold text-gray-700">${formatearPrecio(item.precio)}</span>
+          </div>
+          <div class="col-span-6 md:col-span-2 flex md:justify-center">
+            <div class="flex items-center border-2 border-pink-100 rounded-full">
+              <button onclick="cambiarCantidad('${item.id}', ${item.cantidad - 1})" class="w-8 h-8 flex items-center justify-center text-pink-500 hover:bg-pink-50 rounded-l-full">−</button>
+              <span class="w-10 text-center font-semibold">${item.cantidad}</span>
+              <button onclick="cambiarCantidad('${item.id}', ${item.cantidad + 1})" class="w-8 h-8 flex items-center justify-center text-pink-500 hover:bg-pink-50 rounded-r-full">+</button>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-2 text-right">
+            <span class="md:hidden text-xs text-gray-500">Subtotal: </span>
+            <span class="font-display font-bold text-pink-500">${formatearPrecio(item.subtotalItem)}</span>
+          </div>
+        </div>
+      `).join('');
+
+      const envio = 5.00;
+      const total = resumen.subtotal + envio;
+      document.getElementById('resumen-subtotal').textContent = formatearPrecio(resumen.subtotal);
+      document.getElementById('resumen-envio').textContent = formatearPrecio(envio);
+      document.getElementById('resumen-total').textContent = formatearPrecio(total);
+    }
+
+    window.eliminarItem = function(id) {
+      eliminarDelCarrito(id);
+      renderCarrito();
+      toast('Producto eliminado', 'info');
+    };
+
+    window.cambiarCantidad = function(id, cantidad) {
+      actualizarCantidadCarrito(id, cantidad);
+      renderCarrito();
+    };
+
+    document.getElementById('btn-vaciar').addEventListener('click', () => {
+      if (confirm('¿Estás seguro de vaciar el carrito?')) {
+        vaciarCarrito();
+        renderCarrito();
+        toast('Carrito vaciado', 'info');
+      }
+    });
+
+    document.getElementById('btn-checkout').addEventListener('click', () => {
+      const sesion = obtenerSesion();
+      if (!sesion) {
+        toast('Debes iniciar sesión para continuar', 'info');
+        setTimeout(() => window.location.href = 'login.html?redirect=checkout.html', 1000);
+      } else {
+        window.location.href = 'checkout.html';
+      }
+    });
+
+    renderCarrito();
+  </script>
+</body>
+</html>

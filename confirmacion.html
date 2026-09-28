@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compra Confirmada - Dulce Tentación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <div data-header></div>
+
+  <main class="flex-1 py-8">
+    <div class="container-page max-w-3xl" id="confirmacion-contenido"></div>
+  </main>
+
+  <div data-footer></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const ordenId = obtenerQueryParam('orden');
+    const pedido = obtenerPedidos().find(p => p.id === ordenId);
+
+    if (!pedido) {
+      document.getElementById('confirmacion-contenido').innerHTML = `
+        <div class="text-center py-16">
+          <div class="text-6xl mb-4">😢</div>
+          <h2 class="font-display text-2xl font-bold text-gray-800 mb-2">Pedido no encontrado</h2>
+          <p class="text-gray-500 mb-6">No pudimos encontrar el pedido solicitado.</p>
+          <a href="productos.html" class="btn-primary">Ver Productos</a>
+        </div>
+      `;
+    } else {
+      document.title = `Pedido ${pedido.id} - Dulce Tentación`;
+
+      const sesion = obtenerSesion();
+      const productosConResena = pedido.productos.filter(p => sesion && usuarioHaComprado(sesion.email, p.id));
+
+      document.getElementById('confirmacion-contenido').innerHTML = `
+        <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-8 mb-6 text-center animate-fade-in">
+          <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h1 class="font-display text-3xl md:text-4xl font-bold text-gray-800 mb-2">¡Gracias por tu compra!</h1>
+          <p class="text-gray-600 mb-6">Tu pedido ha sido confirmado y está siendo procesado.</p>
+          <div class="inline-block bg-pink-50 rounded-xl px-6 py-3">
+            <p class="text-sm text-gray-600">Número de orden</p>
+            <p class="font-display text-2xl font-bold text-pink-500">${pedido.id}</p>
+          </div>
+        </div>
+
+        <div id="comprobante" class="bg-white rounded-2xl shadow-sm border border-pink-100 p-8 mb-6">
+          <div class="flex items-start justify-between mb-6 pb-6 border-b border-pink-100">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-3xl">🧁</span>
+                <span class="font-display text-xl font-bold text-pink-500">Dulce Tentación</span>
+              </div>
+              <p class="text-sm text-gray-500">Av. Principal 123, Ciudad</p>
+              <p class="text-sm text-gray-500">+1 (555) 123-4567</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm text-gray-500">Comprobante</p>
+              <p class="font-bold text-gray-800">${pedido.id}</p>
+              <p class="text-sm text-gray-500">${formatearFecha(pedido.fecha)}</p>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6 mb-6 pb-6 border-b border-pink-100">
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Cliente</h3>
+              <p class="font-semibold text-gray-800">${pedido.direccion.nombre}</p>
+              <p class="text-sm text-gray-600">${pedido.direccion.telefono}</p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Dirección de envío</h3>
+              <p class="text-sm text-gray-600">${pedido.direccion.calle}</p>
+              <p class="text-sm text-gray-600">${pedido.direccion.ciudad}, CP ${pedido.direccion.codigoPostal}</p>
+              ${pedido.direccion.referencia ? `<p class="text-xs text-gray-500 mt-1">Ref: ${pedido.direccion.referencia}</p>` : ''}
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Tipo de envío</h3>
+              <p class="font-semibold text-gray-800">${pedido.tipoEnvio}</p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Método de pago</h3>
+              <p class="font-semibold text-gray-800">${pedido.metodoPago}</p>
+            </div>
+          </div>
+
+          <h3 class="font-display text-lg font-bold text-gray-800 mb-4">Productos</h3>
+          <table class="w-full mb-6">
+            <thead>
+              <tr class="text-left text-sm text-gray-500 border-b border-pink-100">
+                <th class="pb-2">Producto</th>
+                <th class="pb-2 text-center">Cant.</th>
+                <th class="pb-2 text-right">Precio</th>
+                <th class="pb-2 text-right">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${pedido.productos.map(p => `
+                <tr class="border-b border-pink-50 last:border-0">
+                  <td class="py-3">
+                    <div class="flex items-center gap-3">
+                      <img src="${p.imagen}" class="w-10 h-10 rounded-lg object-cover">
+                      <span class="text-gray-800">${p.nombre}</span>
+                    </div>
+                  </td>
+                  <td class="py-3 text-center text-gray-600">${p.cantidad}</td>
+                  <td class="py-3 text-right text-gray-600">${formatearPrecio(p.precio)}</td>
+                  <td class="py-3 text-right font-semibold text-gray-800">${formatearPrecio(p.precio * p.cantidad)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div class="flex justify-end">
+            <div class="w-64 space-y-2">
+              <div class="flex justify-between text-gray-600">
+                <span>Subtotal:</span>
+                <span class="font-semibold">${formatearPrecio(pedido.subtotal)}</span>
+              </div>
+              <div class="flex justify-between text-gray-600">
+                <span>Envío:</span>
+                <span class="font-semibold">${formatearPrecio(pedido.envio)}</span>
+              </div>
+              <div class="flex justify-between pt-2 border-t border-pink-100">
+                <span class="font-display text-lg font-bold text-gray-800">Total:</span>
+                <span class="font-display text-2xl font-bold text-pink-500">${formatearPrecio(pedido.total)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-pink-100 text-center text-sm text-gray-500">
+            <p>¡Gracias por elegir Dulce Tentación! 💖</p>
+            <p>Te enviaremos un correo con el seguimiento de tu pedido.</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4 no-print">
+          <button onclick="window.print()" class="btn-secondary">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            Imprimir comprobante
+          </button>
+          <a href="perfil.html" class="btn-primary">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            Ver historial de pedidos
+          </a>
+        </div>
+
+        ${productosConResena.length > 0 ? `
+          <div class="mt-8 bg-pink-50 rounded-2xl p-6 text-center no-print">
+            <p class="text-pink-700 font-medium mb-3">💖 ¿Qué te pareció tu pedido?</p>
+            <p class="text-sm text-gray-600 mb-4">Tu opinión ayuda a otros clientes a tomar mejores decisiones.</p>
+            <a href="resena.html?producto=${productosConResena[0].id}&pedido=${pedido.id}" class="btn-primary inline-flex">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+              Escribir reseña
+            </a>
+          </div>
+        ` : ''}
+      `;
+    }
+  </script>
+</body>
+</html>

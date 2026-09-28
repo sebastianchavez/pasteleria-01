@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Producto - Dulce Tentación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <div data-header></div>
+
+  <main class="flex-1 py-8">
+    <div id="producto-contenido" class="container-page"></div>
+
+    <div class="container-page mt-12">
+      <div class="bg-white rounded-2xl shadow-sm border border-pink-100">
+        <div class="border-b border-pink-100">
+          <nav class="flex">
+            <button data-tab="descripcion" class="tab-btn px-6 py-4 font-semibold text-pink-500 border-b-2 border-pink-500">Descripción</button>
+            <button data-tab="resenas" class="tab-btn px-6 py-4 font-semibold text-gray-500 border-b-2 border-transparent hover:text-pink-500">Reseñas</button>
+          </nav>
+        </div>
+        <div class="p-8">
+          <div id="tab-descripcion" class="tab-content">
+            <p class="text-gray-700 leading-relaxed" id="descripcion-completa"></p>
+            <div class="mt-6 grid md:grid-cols-2 gap-6">
+              <div class="bg-pink-50 rounded-xl p-5">
+                <h4 class="font-display font-bold text-gray-800 mb-2">Ingredientes</h4>
+                <p class="text-sm text-gray-600" id="ingredientes-texto"></p>
+              </div>
+              <div class="bg-pink-50 rounded-xl p-5">
+                <h4 class="font-display font-bold text-gray-800 mb-2">Información</h4>
+                <ul class="text-sm text-gray-600 space-y-1">
+                  <li>✓ Elaboración artesanal</li>
+                  <li>✓ Ingredientes naturales</li>
+                  <li>✓ Sin conservantes</li>
+                  <li>✓ Frescura garantizada</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="tab-resenas" class="tab-content hidden">
+            <div id="resenas-contenido"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-page mt-16">
+      <h2 class="section-title mb-8">También te podría gustar</h2>
+      <div id="relacionados-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </div>
+  </main>
+
+  <div data-footer></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const id = obtenerQueryParam('id');
+    const producto = obtenerProducto(id);
+
+    if (!producto) {
+      document.getElementById('producto-contenido').innerHTML = `
+        <div class="text-center py-16">
+          <div class="text-6xl mb-4">😢</div>
+          <h2 class="font-display text-2xl font-bold text-gray-800 mb-2">Producto no encontrado</h2>
+          <p class="text-gray-500 mb-6">El producto que buscas no existe.</p>
+          <a href="productos.html" class="btn-primary">Ver Productos</a>
+        </div>
+      `;
+    } else {
+      const categoria = obtenerCategoria(producto.categoria);
+      const rating = promedioRating(producto.id);
+      const sesion = obtenerSesion();
+      const puedeResenar = sesion && usuarioHaComprado(sesion.email, producto.id);
+
+      document.title = `${producto.nombre} - Dulce Tentación`;
+
+      document.getElementById('producto-contenido').innerHTML = `
+        <nav class="text-sm text-gray-500 mb-6">
+          <a href="index.html" class="hover:text-pink-500">Inicio</a>
+          <span class="mx-2">/</span>
+          <a href="productos.html" class="hover:text-pink-500">Productos</a>
+          <span class="mx-2">/</span>
+          <a href="productos.html?categoria=${producto.categoria}" class="hover:text-pink-500">${categoria.nombre}</a>
+          <span class="mx-2">/</span>
+          <span class="text-gray-700">${producto.nombre}</span>
+        </nav>
+
+        <div class="grid md:grid-cols-2 gap-12">
+          <div class="bg-pink-50 rounded-3xl overflow-hidden">
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <span class="badge-category">${categoria.nombre}</span>
+            <h1 class="font-display text-3xl md:text-4xl font-bold text-gray-800 mt-3 mb-3">${producto.nombre}</h1>
+            <div class="flex items-center gap-2 mb-4">
+              ${rating > 0 ? `${renderEstrellas(rating, 'md')} <span class="text-sm text-gray-600">${rating} de 5</span>` : '<span class="text-sm text-gray-400">Sin reseñas aún</span>'}
+            </div>
+            <p class="text-4xl font-display font-bold text-pink-500 mb-6">${formatearPrecio(producto.precio)}</p>
+            <p class="text-gray-600 leading-relaxed mb-6">${producto.descripcion}</p>
+
+            <div class="mb-6">
+              <span class="text-sm text-gray-500">Disponibilidad:</span>
+              <span class="text-sm font-semibold ${producto.stock > 5 ? 'text-green-600' : producto.stock > 0 ? 'text-yellow-600' : 'text-red-600'} ml-2">
+                ${producto.stock > 5 ? 'En stock' : producto.stock > 0 ? `¡Solo ${producto.stock} disponibles!` : 'Agotado'}
+              </span>
+            </div>
+
+            <div class="flex items-center gap-4 mb-6">
+              <label class="font-medium text-gray-700">Cantidad:</label>
+              <div class="flex items-center border-2 border-pink-100 rounded-full">
+                <button id="btn-restar" class="w-10 h-10 flex items-center justify-center text-pink-500 hover:bg-pink-50 rounded-l-full">−</button>
+                <input type="number" id="cantidad" value="1" min="1" max="${producto.stock}" class="w-16 text-center border-0 focus:outline-none bg-transparent">
+                <button id="btn-sumar" class="w-10 h-10 flex items-center justify-center text-pink-500 hover:bg-pink-50 rounded-r-full">+</button>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+              <button id="btn-agregar" class="btn-primary flex-1">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                Agregar al carrito
+              </button>
+              <a href="carrito.html" class="btn-secondary">Ver carrito</a>
+            </div>
+
+            ${puedeResenar ? `
+              <div class="mt-6 p-4 bg-pink-50 rounded-xl">
+                <p class="text-sm text-pink-700">💖 ¡Has probado este producto! <a href="resena.html?producto=${producto.id}" class="font-semibold underline">Comparte tu opinión</a></p>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('descripcion-completa').textContent = producto.descripcion;
+      document.getElementById('ingredientes-texto').textContent = producto.ingredientes;
+
+      const inputCantidad = document.getElementById('cantidad');
+      document.getElementById('btn-restar').addEventListener('click', () => {
+        const v = parseInt(inputCantidad.value);
+        if (v > 1) inputCantidad.value = v - 1;
+      });
+      document.getElementById('btn-sumar').addEventListener('click', () => {
+        const v = parseInt(inputCantidad.value);
+        if (v < producto.stock) inputCantidad.value = v + 1;
+      });
+      document.getElementById('btn-agregar').addEventListener('click', () => {
+        const cant = parseInt(inputCantidad.value);
+        agregarAlCarrito(producto.id, cant);
+        toast(`${producto.nombre} agregado al carrito`, 'success');
+      });
+
+      const resenas = obtenerResenasProducto(producto.id);
+      const resenasCont = document.getElementById('resenas-contenido');
+      if (resenas.length === 0) {
+        resenasCont.innerHTML = `
+          <div class="text-center py-12">
+            <div class="text-5xl mb-3">💬</div>
+            <p class="text-gray-500 mb-4">Aún no hay reseñas para este producto.</p>
+            ${sesion ? (puedeResenar ? `<a href="resena.html?producto=${producto.id}" class="btn-primary">Escribir primera reseña</a>` : '<p class="text-sm text-gray-400">Compra el producto para dejar una reseña</p>') : '<a href="login.html" class="btn-primary">Inicia sesión para reseñar</a>'}
+          </div>
+        `;
+      } else {
+        const distribucion = [0, 0, 0, 0, 0];
+        resenas.forEach(r => distribucion[r.rating - 1]++);
+        resenasCont.innerHTML = `
+          <div class="grid md:grid-cols-3 gap-8 mb-8 pb-8 border-b border-pink-100">
+            <div class="text-center">
+              <p class="font-display text-5xl font-bold text-gray-800">${rating}</p>
+              <div class="my-2">${renderEstrellas(rating, 'md')}</div>
+              <p class="text-sm text-gray-500">${resenas.length} reseñas</p>
+            </div>
+            <div class="md:col-span-2 space-y-2">
+              ${[5, 4, 3, 2, 1].map(i => {
+                const cant = distribucion[i - 1];
+                const pct = resenas.length > 0 ? (cant / resenas.length) * 100 : 0;
+                return `
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm w-6">${i}★</span>
+                    <div class="flex-1 bg-pink-50 rounded-full h-2 overflow-hidden">
+                      <div class="bg-yellow-400 h-full" style="width: ${pct}%"></div>
+                    </div>
+                    <span class="text-sm text-gray-500 w-8">${cant}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+          <div class="space-y-4">
+            ${resenas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).map(r => `
+              <div class="border-b border-pink-50 pb-4 last:border-0">
+                <div class="flex items-center justify-between mb-2">
+                  <div>
+                    <p class="font-semibold text-gray-800">${r.usuario}</p>
+                    <div class="flex items-center gap-2">
+                      ${renderEstrellas(r.rating, 'sm')}
+                      <span class="text-xs text-gray-400">${formatearFecha(r.fecha)}</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-gray-600 leading-relaxed">${r.comentario}</p>
+              </div>
+            `).join('')}
+          </div>
+          ${sesion && puedeResenar ? `
+            <div class="mt-8 text-center">
+              <a href="resena.html?producto=${producto.id}" class="btn-secondary">Escribir otra reseña</a>
+            </div>
+          ` : ''}
+        `;
+      }
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => {
+            b.classList.remove('text-pink-500', 'border-pink-500');
+            b.classList.add('text-gray-500', 'border-transparent');
+          });
+          btn.classList.add('text-pink-500', 'border-pink-500');
+          btn.classList.remove('text-gray-500', 'border-transparent');
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+          document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+        });
+      });
+
+      const relacionados = PRODUCTOS.filter(p => p.categoria === producto.categoria && p.id !== producto.id).slice(0, 4);
+      document.getElementById('relacionados-grid').innerHTML = relacionados.map(renderProductoCard).join('');
+    }
+  </script>
+</body>
+</html>

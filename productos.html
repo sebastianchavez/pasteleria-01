@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - Dulce Tentación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col bg-white">
+  <div data-header></div>
+
+  <main class="flex-1">
+    <section class="relative overflow-hidden bg-gradient-to-br from-pink-100 via-rose-50 to-pink-50 py-16">
+      <div class="absolute inset-0 bg-grid-pattern opacity-30"></div>
+      <div class="container-page relative text-center reveal">
+        <p class="section-subtitle">Catálogo</p>
+        <h1 class="font-display text-4xl md:text-6xl font-bold text-gray-900 mb-4">Nuestros Productos</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto text-lg">Descubre toda nuestra variedad de productos artesanales elaborados con los mejores ingredientes.</p>
+      </div>
+    </section>
+
+    <section class="py-12 bg-white">
+      <div class="container-page">
+        <div class="grid lg:grid-cols-4 gap-8">
+          <aside class="lg:col-span-1">
+            <div class="space-y-6 lg:sticky lg:top-24">
+              <div class="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-6 border border-pink-100 shadow-sm">
+                <h3 class="font-display text-lg font-bold text-gray-900 mb-5 flex items-center gap-2">
+                  <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                  Categorías
+                </h3>
+                <ul class="space-y-1.5">
+                  <li>
+                    <button data-categoria="all" class="filtro-cat w-full text-left px-4 py-2.5 rounded-xl hover:bg-white text-gray-700 font-medium transition-all duration-200 flex items-center gap-3">
+                      <span class="text-lg">🛍️</span> Todos los productos
+                    </button>
+                  </li>
+                  <li>
+                    <button data-categoria="tortas" class="filtro-cat w-full text-left px-4 py-2.5 rounded-xl hover:bg-white text-gray-700 font-medium transition-all duration-200 flex items-center gap-3">
+                      <span class="text-lg">🎂</span> Tortas
+                    </button>
+                  </li>
+                  <li>
+                    <button data-categoria="cupcakes" class="filtro-cat w-full text-left px-4 py-2.5 rounded-xl hover:bg-white text-gray-700 font-medium transition-all duration-200 flex items-center gap-3">
+                      <span class="text-lg">🧁</span> Cupcakes
+                    </button>
+                  </li>
+                  <li>
+                    <button data-categoria="pasteles" class="filtro-cat w-full text-left px-4 py-2.5 rounded-xl hover:bg-white text-gray-700 font-medium transition-all duration-200 flex items-center gap-3">
+                      <span class="text-lg">🥐</span> Pasteles
+                    </button>
+                  </li>
+                  <li>
+                    <button data-categoria="panaderia" class="filtro-cat w-full text-left px-4 py-2.5 rounded-xl hover:bg-white text-gray-700 font-medium transition-all duration-200 flex items-center gap-3">
+                      <span class="text-lg">🍞</span> Panadería
+                    </button>
+                  </li>
+                  <li>
+                    <button data-categoria="bebidas" class="filtro-cat w-full text-left px-4 py-2.5 rounded-xl hover:bg-white text-gray-700 font-medium transition-all duration-200 flex items-center gap-3">
+                      <span class="text-lg">☕</span> Bebidas
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="bg-white rounded-2xl p-6 border border-pink-100 shadow-sm">
+                <h3 class="font-display text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/></svg>
+                  Ordenar por
+                </h3>
+                <select id="orden-select" class="input-field text-sm">
+                  <option value="default">Relevancia</option>
+                  <option value="precio-asc">Precio: menor a mayor</option>
+                  <option value="precio-desc">Precio: mayor a menor</option>
+                  <option value="nombre-asc">Nombre A-Z</option>
+                </select>
+              </div>
+
+              <div class="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-6 border border-pink-200">
+                <div class="text-3xl mb-2">🎁</div>
+                <h3 class="font-display text-lg font-bold text-gray-900 mb-1">¿Pedido especial?</h3>
+                <p class="text-sm text-gray-700 mb-3">Personalizamos tu torta para eventos.</p>
+                <a href="contacto.html" class="text-pink-600 hover:text-pink-700 font-semibold text-sm inline-flex items-center gap-1 group">
+                  Contáctanos
+                  <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
+          </aside>
+
+          <div class="lg:col-span-3">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 bg-white rounded-2xl p-4 border border-pink-100 shadow-sm">
+              <p class="text-gray-700"><span id="contador-productos" class="font-bold text-gray-900"></span> productos encontrados</p>
+              <div class="relative">
+                <input type="text" id="buscar" placeholder="Buscar producto..." class="input-field pl-10 py-2 text-sm w-full sm:w-64">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              </div>
+            </div>
+
+            <div id="productos-grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+
+            <div id="no-resultados" class="hidden text-center py-20">
+              <div class="text-7xl mb-4 animate-bounce-subtle">🔍</div>
+              <h3 class="font-display text-2xl font-bold text-gray-900 mb-2">No encontramos productos</h3>
+              <p class="text-gray-500 mb-6">Intenta con otra categoría o búsqueda</p>
+              <button onclick="document.getElementById('buscar').value=''; categoriaActual='all'; actualizarFiltrosActivos(); renderProductos();" class="btn-secondary">Limpiar filtros</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-footer></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    let categoriaActual = obtenerQueryParam('categoria') || 'all';
+    let busquedaActual = '';
+    let ordenActual = 'default';
+
+    function renderProductos() {
+      let productos = [...PRODUCTOS];
+      if (categoriaActual !== 'all') {
+        productos = productos.filter(p => p.categoria === categoriaActual);
+      }
+      if (busquedaActual) {
+        const q = busquedaActual.toLowerCase();
+        productos = productos.filter(p =>
+          p.nombre.toLowerCase().includes(q) ||
+          p.descripcion.toLowerCase().includes(q)
+        );
+      }
+      switch (ordenActual) {
+        case 'precio-asc': productos.sort((a, b) => a.precio - b.precio); break;
+        case 'precio-desc': productos.sort((a, b) => b.precio - a.precio); break;
+        case 'nombre-asc': productos.sort((a, b) => a.nombre.localeCompare(b.nombre)); break;
+      }
+
+      const grid = document.getElementById('productos-grid');
+      const noRes = document.getElementById('no-resultados');
+      const contador = document.getElementById('contador-productos');
+      contador.textContent = productos.length;
+      if (productos.length === 0) {
+        grid.innerHTML = '';
+        noRes.classList.remove('hidden');
+      } else {
+        noRes.classList.add('hidden');
+        grid.innerHTML = productos.map(renderProductoCard).join('');
+      }
+    }
+
+    function actualizarFiltrosActivos() {
+      document.querySelectorAll('.filtro-cat').forEach(btn => {
+        const esActivo = btn.dataset.categoria === categoriaActual;
+        btn.classList.toggle('bg-gradient-to-r', esActivo);
+        btn.classList.toggle('from-pink-500', esActivo);
+        btn.classList.toggle('to-rose-500', esActivo);
+        btn.classList.toggle('text-white', esActivo);
+        btn.classList.toggle('shadow-md', esActivo);
+        btn.classList.toggle('hover:bg-white', !esActivo);
+        btn.classList.toggle('text-gray-700', !esActivo);
+      });
+    }
+
+    document.querySelectorAll('.filtro-cat').forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoriaActual = btn.dataset.categoria;
+        actualizarFiltrosActivos();
+        renderProductos();
+      });
+    });
+
+    document.getElementById('buscar').addEventListener('input', (e) => {
+      busquedaActual = e.target.value;
+      renderProductos();
+    });
+
+    document.getElementById('orden-select').addEventListener('change', (e) => {
+      ordenActual = e.target.value;
+      renderProductos();
+    });
+
+    actualizarFiltrosActivos();
+    renderProductos();
+  </script>
+</body>
+</html>

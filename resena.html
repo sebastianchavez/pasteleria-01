@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escribir Reseña - Dulce Tentación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <div data-header></div>
+
+  <main class="flex-1 py-8">
+    <div class="container-page max-w-2xl" id="resena-contenido"></div>
+  </main>
+
+  <div data-footer></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const sesion = obtenerSesion();
+    if (!sesion) {
+      window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+    } else {
+      const productoId = obtenerQueryParam('producto');
+      const pedidoId = obtenerQueryParam('pedido');
+      const producto = obtenerProducto(productoId);
+      const pedidos = obtenerPedidos().filter(p => p.usuarioEmail === sesion.email);
+
+      const productosComprados = [];
+      pedidos.forEach(p => {
+        p.productos.forEach(prod => {
+          if (!productosComprados.find(x => x.id === prod.id)) {
+            productosComprados.push(prod);
+          }
+        });
+      });
+
+      if (!producto) {
+        document.getElementById('resena-contenido').innerHTML = `
+          <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-8 text-center">
+            <h1 class="font-display text-2xl font-bold text-gray-800 mb-4">Selecciona un producto</h1>
+            <p class="text-gray-500 mb-6">Elige el producto que quieres reseñar</p>
+            <form id="form-producto" class="space-y-4">
+              <select name="producto" required class="input-field">
+                <option value="">Seleccionar producto</option>
+                ${productosComprados.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('')}
+              </select>
+              <button type="submit" class="btn-primary w-full">Continuar</button>
+            </form>
+          </div>
+        `;
+        document.getElementById('form-producto').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const id = e.target.producto.value;
+          if (id) window.location.href = `resena.html?producto=${id}`;
+        });
+      } else {
+        const haComprado = usuarioHaComprado(sesion.email, producto.id);
+
+        if (!haComprado) {
+          document.getElementById('resena-contenido').innerHTML = `
+            <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-8 text-center">
+              <div class="text-6xl mb-4">🔒</div>
+              <h1 class="font-display text-2xl font-bold text-gray-800 mb-2">No puedes reseñar este producto</h1>
+              <p class="text-gray-500 mb-6">Necesitas haber comprado este producto para dejar una reseña.</p>
+              <a href="producto.html?id=${producto.id}" class="btn-primary">Ver producto</a>
+            </div>
+          `;
+        } else {
+          document.title = `Reseña: ${producto.nombre}`;
+
+          document.getElementById('resena-contenido').innerHTML = `
+            <a href="javascript:history.back()" class="btn-ghost mb-4">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              Volver
+            </a>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
+              <div class="bg-gradient-to-r from-pink-100 to-pink-50 p-8 text-center">
+                <p class="section-subtitle">Tu opinión importa</p>
+                <h1 class="font-display text-3xl font-bold text-gray-800 mb-6">Escribir reseña</h1>
+                <div class="flex items-center justify-center gap-4 bg-white rounded-xl p-4 max-w-md mx-auto">
+                  <img src="${producto.imagen}" alt="${producto.nombre}" class="w-16 h-16 rounded-lg object-cover">
+                  <div class="text-left">
+                    <p class="font-display font-bold text-gray-800">${producto.nombre}</p>
+                    <p class="text-sm text-pink-500">${obtenerCategoria(producto.categoria).nombre}</p>
+                  </div>
+                </div>
+              </div>
+
+              <form id="resena-form" class="p-8 space-y-6">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-3 text-center">¿Cómo calificarías este producto?</label>
+                  <div class="flex items-center justify-center gap-2" id="estrellas-container">
+                    ${[1, 2, 3, 4, 5].map(i => `
+                      <button type="button" data-rating="${i}" class="star-interactive text-gray-300 hover:text-yellow-400 transition-colors">
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.922-.755 1.688-1.539 1.118L10 13.347l-3.37 2.448c-.783.57-1.838-.196-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.643 8.382c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.954z"/></svg>
+                      </button>
+                    `).join('')}
+                  </div>
+                  <p class="text-center text-sm text-gray-500 mt-2" id="rating-label">Selecciona una calificación</p>
+                  <input type="hidden" name="rating" id="rating-input" required>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">Cuéntanos tu experiencia</label>
+                  <textarea name="comentario" required minlength="20" rows="6" class="input-field resize-none" placeholder="¿Qué te pareció el producto? ¿Lo recomendarías? Cuéntanos los detalles..."></textarea>
+                  <p class="text-xs text-gray-400 mt-1">Mínimo 20 caracteres</p>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">Título (opcional)</label>
+                  <input type="text" name="titulo" maxlength="60" class="input-field" placeholder="Un resumen corto de tu opinión">
+                </div>
+
+                <div class="bg-pink-50 rounded-xl p-4">
+                  <label class="flex items-start gap-2 text-sm text-gray-700">
+                    <input type="checkbox" required class="mt-1 rounded text-pink-500 focus:ring-pink-400">
+                    <span>Confirmo que esta reseña refleja mi experiencia real con el producto y que cumple con las <a href="terminos.html" class="text-pink-500 underline">normas de la comunidad</a>.</span>
+                  </label>
+                </div>
+
+                <div class="flex gap-3">
+                  <a href="${pedidoId ? `pedido.html?id=${pedidoId}` : 'perfil.html'}" class="btn-secondary flex-1">Cancelar</a>
+                  <button type="submit" class="btn-primary flex-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Publicar reseña
+                  </button>
+                </div>
+              </form>
+            </div>
+          `;
+
+          let ratingActual = 0;
+          const estrellasCont = document.getElementById('estrellas-container');
+          const estrellas = estrellasCont.querySelectorAll('button');
+          const ratingLabel = document.getElementById('rating-label');
+          const ratingInput = document.getElementById('rating-input');
+
+          const labels = ['', 'Muy malo', 'Malo', 'Regular', 'Bueno', 'Excelente'];
+
+          function actualizarEstrellas(rating, hover = false) {
+            estrellas.forEach((estrella, idx) => {
+              const valor = idx + 1;
+              const svg = estrella.querySelector('svg');
+              if (valor <= rating) {
+                svg.classList.remove('text-gray-300');
+                svg.classList.add('text-yellow-400');
+              } else {
+                svg.classList.add('text-gray-300');
+                svg.classList.remove('text-yellow-400');
+              }
+            });
+          }
+
+          estrellas.forEach((estrella, idx) => {
+            const valor = idx + 1;
+            estrella.addEventListener('mouseenter', () => {
+              actualizarEstrellas(valor);
+              ratingLabel.textContent = labels[valor];
+            });
+            estrella.addEventListener('mouseleave', () => {
+              actualizarEstrellas(ratingActual);
+              ratingLabel.textContent = ratingActual > 0 ? labels[ratingActual] : 'Selecciona una calificación';
+            });
+            estrella.addEventListener('click', () => {
+              ratingActual = valor;
+              ratingInput.value = valor;
+              actualizarEstrellas(valor);
+              ratingLabel.textContent = labels[valor];
+            });
+          });
+
+          document.getElementById('resena-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const rating = parseInt(formData.get('rating'));
+            const comentario = formData.get('comentario');
+
+            if (!rating) {
+              toast('Por favor selecciona una calificación', 'error');
+              return;
+            }
+
+            const nuevaResena = {
+              id: 'r' + Date.now(),
+              productoId: producto.id,
+              usuario: sesion.nombre,
+              rating: rating,
+              comentario: comentario,
+              fecha: new Date().toISOString().split('T')[0]
+            };
+
+            const resenas = obtenerResenas();
+            resenas.push(nuevaResena);
+            guardarResenas(resenas);
+
+            toast('¡Gracias por tu reseña!', 'success');
+            setTimeout(() => {
+              window.location.href = `producto.html?id=${producto.id}#resenas`;
+            }, 1500);
+          });
+        }
+      }
+    }
+  </script>
+</body>
+</html>

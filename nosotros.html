@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nosotros - Dulce Tentación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+  <div data-header></div>
+
+  <main class="flex-1">
+    <section class="hero-gradient py-20">
+      <div class="container-page text-center">
+        <p class="section-subtitle">Sobre nosotros</p>
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-800 mb-6">Nuestra historia</h1>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Más de una década endulzando los momentos más importantes de nuestros clientes con pasión, dedicación y los mejores ingredientes.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
+      <div class="container-page">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&q=80" alt="Pastelería" class="rounded-3xl shadow-xl">
+          </div>
+          <div>
+            <p class="section-subtitle">Quiénes somos</p>
+            <h2 class="section-title">Tradición y pasión pastelera</h2>
+            <p class="text-gray-600 mb-4 leading-relaxed">
+              Dulce Tentación nació en 2010 del sueño de María Rodríguez, una apasionada pastelera que quería compartir las recetas tradicionales de su familia con la comunidad. Lo que comenzó como un pequeño rincón en un mercado local, se ha convertido en una de las pastelerías más queridas de la ciudad.
+            </p>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Hoy, nuestro equipo de artesanos pasteleros sigue elaborando cada producto de forma artesanal, utilizando ingredientes de la más alta calidad y técnicas que combinan la tradición francesa con toques de innovación latinoamericana.
+            </p>
+            <div class="grid grid-cols-3 gap-4">
+              <div class="text-center p-4 bg-pink-50 rounded-xl">
+                <p class="font-display text-3xl font-bold text-pink-500">15+</p>
+                <p class="text-sm text-gray-600">Años</p>
+              </div>
+              <div class="text-center p-4 bg-pink-50 rounded-xl">
+                <p class="font-display text-3xl font-bold text-pink-500">50+</p>
+                <p class="text-sm text-gray-600">Recetas</p>
+              </div>
+              <div class="text-center p-4 bg-pink-50 rounded-xl">
+                <p class="font-display text-3xl font-bold text-pink-500">10k+</p>
+                <p class="text-sm text-gray-600">Clientes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-gradient-to-b from-pink-50 to-white">
+      <div class="container-page">
+        <div class="text-center mb-12">
+          <p class="section-subtitle">Lo que nos define</p>
+          <h2 class="section-title">Misión, Visión y Valores</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-lg transition">
+            <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-5">
+              <span class="text-3xl">🎯</span>
+            </div>
+            <h3 class="font-display text-2xl font-bold text-gray-800 mb-3">Nuestra Misión</h3>
+            <p class="text-gray-600 leading-relaxed">Crear momentos dulces y memorables a través de productos de pastelería artesanales de la más alta calidad, elaborados con ingredientes naturales y mucho amor.</p>
+          </div>
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-lg transition">
+            <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-5">
+              <span class="text-3xl">🌟</span>
+            </div>
+            <h3 class="font-display text-2xl font-bold text-gray-800 mb-3">Nuestra Visión</h3>
+            <p class="text-gray-600 leading-relaxed">Ser la pastelería de referencia en la región, reconocida por nuestra excelencia, innovación y compromiso con la satisfacción de nuestros clientes.</p>
+          </div>
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-lg transition">
+            <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-5">
+              <span class="text-3xl">💝</span>
+            </div>
+            <h3 class="font-display text-2xl font-bold text-gray-800 mb-3">Nuestros Valores</h3>
+            <p class="text-gray-600 leading-relaxed">Calidad, tradición, innovación, amor por el detalle, compromiso con el cliente y responsabilidad con el medio ambiente y la comunidad.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
+      <div class="container-page">
+        <div class="text-center mb-12">
+          <p class="section-subtitle">Nuestro equipo</p>
+          <h2 class="section-title">Las manos detrás del sabor</h2>
+          <p class="text-gray-500 max-w-2xl mx-auto">Profesionales apasionados que dedican su talento a crear momentos dulces para ti.</p>
+        </div>
+        <div id="equipo-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-gradient-to-b from-pink-50 to-white">
+      <div class="container-page">
+        <div class="text-center mb-12">
+          <p class="section-subtitle">Nuestro compromiso</p>
+          <h2 class="section-title">Promesas que cumplimos</h2>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="text-center">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+              <span class="text-4xl">🌱</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-gray-800 mb-2">100% Natural</h3>
+            <p class="text-sm text-gray-600">Sin conservantes ni colorantes artificiales</p>
+          </div>
+          <div class="text-center">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+              <span class="text-4xl">🌾</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-gray-800 mb-2">Sin Gluten*</h3>
+            <p class="text-sm text-gray-600">Opciones para celiacos disponibles</p>
+          </div>
+          <div class="text-center">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+              <span class="text-4xl">♻️</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-gray-800 mb-2">Eco-Friendly</h3>
+            <p class="text-sm text-gray-600">Empaques biodegradables</p>
+          </div>
+          <div class="text-center">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+              <span class="text-4xl">❤️</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-gray-800 mb-2">Hecho con Amor</h3>
+            <p class="text-sm text-gray-600">Cada producto es especial</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
+      <div class="container-page">
+        <div class="bg-gradient-to-r from-pink-400 to-pink-500 rounded-3xl p-8 md:p-12 text-center text-white">
+          <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">¿Quieres ser parte de nuestra historia?</h2>
+          <p class="text-pink-100 mb-8 max-w-2xl mx-auto">Ponte en contacto con nosotros o síguenos en redes sociales para conocer más sobre nuestro día a día.</p>
+          <a href="contacto.html" class="inline-flex items-center gap-2 px-8 py-3 bg-white text-pink-500 font-semibold rounded-full hover:bg-pink-50 transition shadow-lg">
+            Contáctanos
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-footer></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const equipoGrid = document.getElementById('equipo-grid');
+    equipoGrid.innerHTML = EQUIPO.map(m => `
+      <div class="text-center bg-white rounded-2xl p-6 shadow-sm border border-pink-100 hover:shadow-lg transition">
+        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4 ring-4 ring-pink-100">
+          <img src="${m.foto}" alt="${m.nombre}" class="w-full h-full object-cover">
+        </div>
+        <h3 class="font-display text-xl font-bold text-gray-800">${m.nombre}</h3>
+        <p class="text-pink-500 font-medium text-sm mb-3">${m.rol}</p>
+        <p class="text-gray-600 text-sm leading-relaxed">${m.descripcion}</p>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>
