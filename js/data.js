@@ -11,7 +11,7 @@ const PRODUCTOS = [
     id: 'p001',
     nombre: 'Torta de Chocolate Belga',
     categoria: 'tortas',
-    precio: 35.00,
+    precio: 35000,
     imagen: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80',
     descripcion: 'Exquisita torta de tres capas con chocolate belga premium, rellena de ganache y cubierta con frosting de chocolate amargo. Decorada con virutas de chocolate y fresas frescas.',
     ingredientes: 'Harina, mantequilla, huevos, chocolate belga 70%, azúcar, fresas',
@@ -22,7 +22,7 @@ const PRODUCTOS = [
     id: 'p002',
     nombre: 'Torta Red Velvet',
     categoria: 'tortas',
-    precio: 32.00,
+    precio: 32000,
     imagen: 'https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=600&q=80',
     descripcion: 'Clásica torta Red Velvet con su característico color rojo intenso y sabor a cacao suave. Rellena y cubierta con crema de queso artesanal.',
     ingredientes: 'Harina, cacao, buttermilk, colorante natural, crema de queso, azúcar',
@@ -33,7 +33,7 @@ const PRODUCTOS = [
     id: 'p003',
     nombre: 'Cupcakes Variados (x6)',
     categoria: 'cupcakes',
-    precio: 18.00,
+    precio: 18000,
     imagen: 'https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=600&q=80',
     descripcion: 'Caja con seis cupcakes de sabores variados: vainilla, chocolate, fresa, limón, red velvet y zanahoria. Decorados con buttercream de colores pastel.',
     ingredientes: 'Harina, mantequilla, azúcar, huevos, sabores naturales, crema',
@@ -44,7 +44,7 @@ const PRODUCTOS = [
     id: 'p004',
     nombre: 'Cupcakes de Fresa (x4)',
     categoria: 'cupcakes',
-    precio: 14.00,
+    precio: 14000,
     imagen: 'https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600&q=80',
     descripcion: 'Cuatro tiernos cupcakes con bizcocho de vainilla y frosting de fresa natural. Decorados con una fresa fresca en la cima.',
     ingredientes: 'Harina, fresas naturales, vainilla, mantequilla, azúcar glas',
@@ -55,7 +55,7 @@ const PRODUCTOS = [
     id: 'p005',
     nombre: 'Croissant de Almendra',
     categoria: 'pasteles',
-    precio: 4.50,
+    precio: 4500,
     imagen: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80',
     descripcion: 'Croissant hojaldrado relleno de crema de almendras y cubierto con almendras laminadas tostadas. Horneado al momento.',
     ingredientes: 'Mantequilla francesa, harina, almendras, azúcar, huevo',
@@ -66,7 +66,7 @@ const PRODUCTOS = [
     id: 'p006',
     nombre: 'Eclair de Chocolate',
     categoria: 'pasteles',
-    precio: 5.00,
+    precio: 5000,
     imagen: 'https://images.unsplash.com/photo-1623334044303-241021148842?w=600&q=80',
     descripcion: 'Masa choux rellena de crema pastelera de chocolate, cubierta con glaseado brillante de chocolate oscuro y decorado con hilos de chocolate blanco.',
     ingredientes: 'Masa choux, crema pastelera, chocolate oscuro, chocolate blanco',
@@ -77,7 +77,7 @@ const PRODUCTOS = [
     id: 'p007',
     nombre: 'Macarons Surtidos (x12)',
     categoria: 'pasteles',
-    precio: 22.00,
+    precio: 22000,
     imagen: 'https://images.unsplash.com/photo-1558326567-98ae2405596b?w=600&q=80',
     descripcion: 'Caja de doce macarons franceses con sabores variados: pistacho, frambuesa, chocolate, vainilla, café y limón. Colores pastel delicados.',
     ingredientes: 'Almendra molida, azúcar glas, claras de huevo, sabores naturales',
@@ -88,7 +88,7 @@ const PRODUCTOS = [
     id: 'p008',
     nombre: 'Pan de Masa Madre',
     categoria: 'panaderia',
-    precio: 6.50,
+    precio: 6500,
     imagen: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80',
     descripcion: 'Pan artesanal de masa madre fermentada durante 24 horas. Corteza crujiente y miga esponjosa con sabor ligeramente ácido.',
     ingredientes: 'Harina orgánica, masa madre, agua, sal marina',
@@ -99,7 +99,7 @@ const PRODUCTOS = [
     id: 'p009',
     nombre: 'Tarta de Manzana',
     categoria: 'panaderia',
-    precio: 15.00,
+    precio: 15000,
     imagen: 'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=600&q=80',
     descripcion: 'Tarta rústica de manzana con masa quebrada casera, manzanas caramelizadas y un toque de canela. Servida tibia.',
     ingredientes: 'Manzanas, harina, mantequilla, azúcar morena, canela, limón',
@@ -110,7 +110,7 @@ const PRODUCTOS = [
     id: 'p010',
     nombre: 'Café Latte',
     categoria: 'bebidas',
-    precio: 3.50,
+    precio: 3500,
     imagen: 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=600&q=80',
     descripcion: 'Café espresso con leche texturizada al vapor, servido en taza de cerámica. Acompañado con arte latte.',
     ingredientes: 'Café arábigo de altura, leche entera',
@@ -121,7 +121,7 @@ const PRODUCTOS = [
     id: 'p011',
     nombre: 'Chocolate Caliente',
     categoria: 'bebidas',
-    precio: 4.00,
+    precio: 4000,
     imagen: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=600&q=80',
     descripcion: 'Crema espesa de chocolate belga con leche caliente, coronada con malvaviscos y ralladura de chocolate.',
     ingredientes: 'Chocolate belga, leche entera, malvaviscos, nata',
@@ -132,7 +132,7 @@ const PRODUCTOS = [
     id: 'p012',
     nombre: 'Torta de Zanahoria',
     categoria: 'tortas',
-    precio: 30.00,
+    precio: 30000,
     imagen: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&q=80',
     descripcion: 'Húmeda torta de zanahoria con especias, nueces pecanas y cubierta con frosting de queso crema. Una delicia reconfortante.',
     ingredientes: 'Zanahoria, nueces pecanas, canela, harina, queso crema',
@@ -194,14 +194,14 @@ const PEDIDOS_INICIALES = [
     fecha: '2024-09-15',
     estado: 'Entregado',
     productos: [
-      { id: 'p001', nombre: 'Torta de Chocolate Belga', precio: 35.00, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200&q=80' },
-      { id: 'p010', nombre: 'Café Latte', precio: 3.50, cantidad: 2, imagen: 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=200&q=80' }
+      { id: 'p001', nombre: 'Torta de Chocolate Belga', precio: 35000, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200&q=80' },
+      { id: 'p010', nombre: 'Café Latte', precio: 3500, cantidad: 2, imagen: 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=200&q=80' }
     ],
-    subtotal: 42.00,
-    envio: 5.00,
-    total: 47.00,
+    subtotal: 42000,
+    envio: 5000,
+    total: 47000,
     tipoEnvio: 'Estándar (3-5 días)',
-    direccion: { nombre: 'María López', telefono: '555-1234', calle: 'Av. Principal 123', ciudad: 'Ciudad', codigoPostal: '12345' },
+    direccion: { nombre: 'María López', telefono: '+56 9 1234 5678', calle: 'Av. Principal 123', ciudad: 'Santiago', codigoPostal: '7500000' },
     metodoPago: 'Tarjeta de Crédito'
   },
   {
@@ -210,14 +210,14 @@ const PEDIDOS_INICIALES = [
     fecha: '2024-09-20',
     estado: 'En camino',
     productos: [
-      { id: 'p003', nombre: 'Cupcakes Variados (x6)', precio: 18.00, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=200&q=80' },
-      { id: 'p007', nombre: 'Macarons Surtidos (x12)', precio: 22.00, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1558326567-98ae2405596b?w=200&q=80' }
+      { id: 'p003', nombre: 'Cupcakes Variados (x6)', precio: 18000, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=200&q=80' },
+      { id: 'p007', nombre: 'Macarons Surtidos (x12)', precio: 22000, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1558326567-98ae2405596b?w=200&q=80' }
     ],
-    subtotal: 40.00,
-    envio: 10.00,
-    total: 50.00,
+    subtotal: 40000,
+    envio: 10000,
+    total: 50000,
     tipoEnvio: 'Express (24-48 horas)',
-    direccion: { nombre: 'María López', telefono: '555-1234', calle: 'Av. Principal 123', ciudad: 'Ciudad', codigoPostal: '12345' },
+    direccion: { nombre: 'María López', telefono: '+56 9 1234 5678', calle: 'Av. Principal 123', ciudad: 'Santiago', codigoPostal: '7500000' },
     metodoPago: 'PayPal'
   },
   {
@@ -226,13 +226,13 @@ const PEDIDOS_INICIALES = [
     fecha: '2024-09-25',
     estado: 'Procesando',
     productos: [
-      { id: 'p002', nombre: 'Torta Red Velvet', precio: 32.00, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=200&q=80' }
+      { id: 'p002', nombre: 'Torta Red Velvet', precio: 32000, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=200&q=80' }
     ],
-    subtotal: 32.00,
-    envio: 5.00,
-    total: 37.00,
+    subtotal: 32000,
+    envio: 5000,
+    total: 37000,
     tipoEnvio: 'Estándar (3-5 días)',
-    direccion: { nombre: 'María López', telefono: '555-1234', calle: 'Av. Principal 123', ciudad: 'Ciudad', codigoPostal: '12345' },
+    direccion: { nombre: 'María López', telefono: '+56 9 1234 5678', calle: 'Av. Principal 123', ciudad: 'Santiago', codigoPostal: '7500000' },
     metodoPago: 'Transferencia Bancaria'
   }
 ];
@@ -243,8 +243,8 @@ const USUARIOS_INICIALES = [
     nombre: 'María López',
     email: 'maria@ejemplo.com',
     password: '123456',
-    telefono: '555-1234',
-    direccion: 'Av. Principal 123, Ciudad',
+    telefono: '+56 9 1234 5678',
+    direccion: 'Av. Principal 123, Santiago, Chile',
     fechaRegistro: '2024-01-15'
   },
   {
@@ -252,19 +252,19 @@ const USUARIOS_INICIALES = [
     nombre: 'Juan Pérez',
     email: 'juan@ejemplo.com',
     password: '123456',
-    telefono: '555-5678',
-    direccion: 'Calle Secundaria 456, Ciudad',
+    telefono: '+56 9 8765 4321',
+    direccion: 'Calle Secundaria 456, Santiago, Chile',
     fechaRegistro: '2024-03-20'
   }
 ];
 
 function formatearPrecio(precio) {
-  return `$${precio.toFixed(2)}`;
+  return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(Number(precio));
 }
 
 function formatearFecha(fecha) {
   const d = new Date(fecha);
-  return d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  return d.toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 function generarIdPedido() {

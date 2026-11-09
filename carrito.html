@@ -21,6 +21,7 @@
     }
   </script>
   <link rel="stylesheet" href="css/styles.css">
+<meta name="currency" content="CLP">
 </head>
 <body class="min-h-screen flex flex-col">
   <div data-header></div>
@@ -63,17 +64,17 @@
             <div class="space-y-3 pb-4 border-b border-pink-100">
               <div class="flex justify-between text-gray-600">
                 <span>Subtotal</span>
-                <span id="resumen-subtotal" class="font-semibold text-gray-800">$0.00</span>
+                <span id="resumen-subtotal" class="font-semibold text-gray-800">$0</span>
               </div>
               <div class="flex justify-between text-gray-600">
                 <span>Envío (estándar)</span>
-                <span id="resumen-envio" class="font-semibold text-gray-800">$5.00</span>
+                <span id="resumen-envio" class="font-semibold text-gray-800">$5.000</span>
               </div>
               <p class="text-xs text-gray-400">* El envío express se cotiza en checkout</p>
             </div>
             <div class="flex justify-between items-center py-4">
               <span class="font-display text-lg font-bold text-gray-800">Total</span>
-              <span id="resumen-total" class="font-display text-2xl font-bold text-pink-500">$0.00</span>
+              <span id="resumen-total" class="font-display text-2xl font-bold text-pink-500">$0</span>
             </div>
             <button id="btn-checkout" class="btn-primary w-full">
               Proceder al pago
